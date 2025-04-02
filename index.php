@@ -1,10 +1,10 @@
 <?php
 require_once 'pdo.php';
 require_once 'student.php';
+require_once 'model.php';
 
 // Fetch all student records
-$stmt = $pdo->query("SELECT * FROM students");
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$rows = getAllStudents();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1 class="text-3xl font-bold text-center mb-5">Student Management System</h1>
 
     <!-- Form to Add New Student -->
-    <form action="process.php" method="POST" class="bg-white p-6 rounded-lg shadow-md mb-5">
+    <form action="model.php" method="POST" class="bg-white p-6 rounded-lg shadow-md mb-5">
         <div class="grid grid-cols-2 gap-4">
             <input type="text" name="firstname" placeholder="First Name" class="w-full p-2 border rounded" required>
             <input type="text" name="lastname" placeholder="Last Name" class="w-full p-2 border rounded" required>
@@ -33,7 +33,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </button>
     </form>
 
-    <!-- Display Student Records in Table -->
+    <!-- Student List -->
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Student List</h2>
         <table class="w-full table-auto border-collapse border border-gray-200">
@@ -44,10 +44,11 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th class="p-2 border">Course</th>
                     <th class="p-2 border">Address</th>
                     <th class="p-2 border">DOB</th>
+                    <th class="p-2 border">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (count($rows) > 0): ?>
+                <?php if (!empty($rows)): ?>
                     <?php foreach ($rows as $row): ?>
                         <?php $student = Student::deserializeData($row['data']); ?>
                         <tr>
@@ -56,16 +57,28 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td class="p-2 border"><?= htmlspecialchars($student->course) ?></td>
                             <td class="p-2 border"><?= htmlspecialchars($student->address) ?></td>
                             <td class="p-2 border"><?= htmlspecialchars($student->dob) ?></td>
+                            <td class="p-2 border text-center">
+                                <a href="edit.php?id=<?= $row['id'] ?>" 
+                                   class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700">
+                                    Edit
+                                </a>
+                                <a href="model.php?delete_id=<?= $row['id'] ?>" 
+                                   class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+                                   onclick="return confirm('Are you sure you want to delete this student?');">
+                                    Delete
+                                </a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" class="p-4 text-center text-gray-500">No records found. Add some students!</td>
+                        <td colspan="6" class="p-4 text-center text-gray-500">No records found. Add some students!</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
+
 </div>
 
 </body>
