@@ -38,11 +38,10 @@ if (isset($_POST['update_student'])) {
     exit();
 }
 
-// DELETE: Remove a student record
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
+//DELETE: Not working one
+if (isset($_GET['delete_id'])) { 
     $stmt = $pdo->prepare("DELETE FROM students WHERE id = :id");
-    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
     $stmt->execute();
 
     header("Location: index.php");

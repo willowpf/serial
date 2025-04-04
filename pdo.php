@@ -1,7 +1,7 @@
 <?php
 try {
     // Establish PDO connection using the given credentials
-    $pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=misc', 'root', '122996');
+    $pdo = new PDO('mysql:host=localhost;port=3306;dbname=misc', 'root', '');
 
     // Set error handling mode to exception
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

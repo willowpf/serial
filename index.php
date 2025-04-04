@@ -3,7 +3,7 @@ require_once 'pdo.php';
 require_once 'student.php';
 require_once 'model.php';
 
-// Fetch all student records
+
 $rows = getAllStudents();
 ?>
 
@@ -19,7 +19,7 @@ $rows = getAllStudents();
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-center mb-5">Student Management System</h1>
 
-    <!-- Form to Add New Student -->
+    
     <form action="model.php" method="POST" class="bg-white p-6 rounded-lg shadow-md mb-5">
         <div class="grid grid-cols-2 gap-4">
             <input type="text" name="firstname" placeholder="First Name" class="w-full p-2 border rounded" required>
@@ -33,7 +33,7 @@ $rows = getAllStudents();
         </button>
     </form>
 
-    <!-- Student List -->
+    
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Student List</h2>
         <table class="w-full table-auto border-collapse border border-gray-200">
@@ -62,7 +62,7 @@ $rows = getAllStudents();
                                    class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700">
                                     Edit
                                 </a>
-                                <a href="model.php?delete_id=<?= $row['id'] ?>" 
+                                <a href="delete.php?id=<?= $row['id'] ?>" 
                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
                                    onclick="return confirm('Are you sure you want to delete this student?');">
                                     Delete
